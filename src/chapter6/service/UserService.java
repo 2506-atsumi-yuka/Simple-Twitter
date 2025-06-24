@@ -127,11 +127,10 @@ public class UserService {
 		Connection connection = null;
 		try {
 			//パスワードに入力がない場合、パスワードは更新しない
-
 			if(StringUtils.isNotBlank(user.getPassword())) { //パスワードの入力あり
 				// パスワード暗号化
-			String encPassword = CipherUtil.encrypt(user.getPassword());
-			user.setPassword(encPassword);
+				String encPassword = CipherUtil.encrypt(user.getPassword());
+				user.setPassword(encPassword);
 			}
 
 			connection = getConnection();
