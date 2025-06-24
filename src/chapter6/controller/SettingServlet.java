@@ -56,10 +56,8 @@ public class SettingServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		log.info(new Object() {
-		}.getClass().getEnclosingClass().getName() +
-				" : " + new Object() {
-				}.getClass().getEnclosingMethod().getName());
+		log.info(new Object() {}.getClass().getEnclosingClass().getName() +
+		" : " + new Object() {}.getClass().getEnclosingMethod().getName());
 
 		HttpSession session = request.getSession();
 		List<String> errorMessages = new ArrayList<String>();
@@ -68,6 +66,7 @@ public class SettingServlet extends HttpServlet {
 		if (isValid(user, errorMessages)) {
 			try {
 				new UserService().update(user);
+
 			} catch (NoRowsUpdatedRuntimeException e) {
 				log.warning("他の人によって更新されています。最新のデータを表示しました。データを確認してください。");
 				errorMessages.add("他の人によって更新されています。最新のデータを表示しました。データを確認してください。");
@@ -107,7 +106,6 @@ public class SettingServlet extends HttpServlet {
 
 		String name = user.getName();
 		String account = user.getAccount();
-		String password = user.getPassword();
 		String email = user.getEmail();
 
 		if (!StringUtils.isEmpty(name) && (20 < name.length())) {
@@ -118,13 +116,9 @@ public class SettingServlet extends HttpServlet {
 		} else if (20 < account.length()) {
 			errorMessages.add("アカウント名は20文字以下で入力してください");
 		}
-		if (StringUtils.isEmpty(password)) {
-			errorMessages.add("パスワードを入力してください");
-		}
 		if (!StringUtils.isEmpty(email) && (50 < email.length())) {
 			errorMessages.add("メールアドレスは50文字以下で入力してください");
 		}
-
 		if (errorMessages.size() != 0) {
 			return false;
 		}

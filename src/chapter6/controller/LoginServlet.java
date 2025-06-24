@@ -18,7 +18,7 @@ import chapter6.service.UserService;
 
 @WebServlet(urlPatterns = { "/login" })
 public class LoginServlet extends HttpServlet {
-
+//ログイン機能の追加
     /**
     * ロガーインスタンスの生成
     */

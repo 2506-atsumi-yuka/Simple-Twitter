@@ -35,9 +35,8 @@ public class UserMessageDao {
 	public List<UserMessage> select(Connection connection, int num) {
 
 		log.info(new Object() {
-		}.getClass().getEnclosingClass().getName() +
-				" : " + new Object() {
-				}.getClass().getEnclosingMethod().getName());
+		}.getClass().getEnclosingClass().getName() +" : " + new Object() {
+		}.getClass().getEnclosingMethod().getName());
 
 		PreparedStatement ps = null;
 		try {

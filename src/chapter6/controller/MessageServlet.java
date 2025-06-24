@@ -21,7 +21,7 @@ import chapter6.service.MessageService;
 
 @WebServlet(urlPatterns = { "/message" })
 public class MessageServlet extends HttpServlet {
-
+//メッセージのつぶやき機能
 	/**
 	* ロガーインスタンスの生成
 	*/
@@ -66,12 +66,10 @@ public class MessageServlet extends HttpServlet {
 
 	private boolean isValid(String text, List<String> errorMessages) {
 
-		log.info(new Object() {
-		}.getClass().getEnclosingClass().getName() +
-				" : " + new Object() {
-				}.getClass().getEnclosingMethod().getName());
+		log.info(new Object() {}.getClass().getEnclosingClass().getName() +
+		" : " + new Object() {}.getClass().getEnclosingMethod().getName());
 
-		if (StringUtils.isEmpty(text)) {
+		if (StringUtils.isBlank(text)) {
 			errorMessages.add("メッセージを入力してください");
 		} else if (140 < text.length()) {
 			errorMessages.add("140文字以下で入力してください");
