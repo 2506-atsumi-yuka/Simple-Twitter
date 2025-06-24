@@ -60,12 +60,38 @@ public class MessageService {
 	//メッセージ一覧を取得する
 	public List<UserMessage> select() {
 
-		log.info(new Object() {
-		}.getClass().getEnclosingClass().getName() +
-				" : " + new Object() {
-				}.getClass().getEnclosingMethod().getName());
+		log.info(new Object() {}.getClass().getEnclosingClass().getName() +
+		" : " + new Object() {}.getClass().getEnclosingMethod().getName());
 
 		final int LIMIT_NUM = 1000;
+
+		//特定のユーザーのつぶやきだけ表示
+		/*
+		 * selectの引数にString型のuserIdを追加
+		 */
+		public List<UserMessage> select(String userId) {
+		  final int LIMIT_NUM = 1000;
+
+		  Connection connection = null;
+		  try {
+		    connection = getConnection();
+		    /*
+		    * idをnullで初期化
+		    * ServletからuserIdの値が渡ってきていたら
+		    * 整数型に型変換し、idに代入
+		    */
+		    Integer id = null;
+		    if(!StringUtils.isEmpty(userId)) {
+		        id = Integer.parseInt(userId);
+		    }
+
+		    /*
+		    * messageDao.selectに引数としてInteger型のidを追加
+		    * idがnullだったら全件取得する
+		    * idがnull以外だったら、その値に対応するユーザーIDの投稿を取得する
+		    */
+		    List<UserMessage> messages = new UserMessageDao().select(connection, id, LIMIT_NUM);
+
 
 		Connection connection = null;
 		try {
