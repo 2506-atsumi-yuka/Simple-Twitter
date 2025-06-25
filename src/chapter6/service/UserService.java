@@ -30,11 +30,14 @@ public class UserService {
 		application.init();
 
 	}
+
 	//ユーザーの登録機能実装
 	public void insert(User user) {
 
-		log.info(new Object() {}.getClass().getEnclosingClass().getName() +
-		" : " + new Object() {}.getClass().getEnclosingMethod().getName());
+		log.info(new Object() {
+		}.getClass().getEnclosingClass().getName() +
+				" : " + new Object() {
+				}.getClass().getEnclosingMethod().getName());
 
 		Connection connection = null;
 		try {
@@ -62,8 +65,10 @@ public class UserService {
 
 	public User select(String accountOrEmail, String password) {
 
-		log.info(new Object() {}.getClass().getEnclosingClass().getName() +
-		" : " + new Object() {}.getClass().getEnclosingMethod().getName());
+		log.info(new Object() {
+		}.getClass().getEnclosingClass().getName() +
+				" : " + new Object() {
+				}.getClass().getEnclosingMethod().getName());
 
 		Connection connection = null;
 		try {
@@ -93,8 +98,10 @@ public class UserService {
 	//ログイン機能
 	public User select(int userId) {
 
-		log.info(new Object() {}.getClass().getEnclosingClass().getName() +
-		" : " + new Object() {}.getClass().getEnclosingMethod().getName());
+		log.info(new Object() {
+		}.getClass().getEnclosingClass().getName() +
+				" : " + new Object() {
+				}.getClass().getEnclosingMethod().getName());
 
 		Connection connection = null;
 		try {
@@ -121,13 +128,15 @@ public class UserService {
 	//ユーザー情報の変更機能
 	public void update(User user) {
 
-		log.info(new Object() {}.getClass().getEnclosingClass().getName() +
-		" : " + new Object() {}.getClass().getEnclosingMethod().getName());
+		log.info(new Object() {
+		}.getClass().getEnclosingClass().getName() +
+				" : " + new Object() {
+				}.getClass().getEnclosingMethod().getName());
 
 		Connection connection = null;
 		try {
 			//パスワードに入力がない場合、パスワードは更新しない
-			if(StringUtils.isNotBlank(user.getPassword())) { //パスワードの入力あり
+			if (StringUtils.isNotBlank(user.getPassword())) { //パスワードの入力あり
 				// パスワード暗号化
 				String encPassword = CipherUtil.encrypt(user.getPassword());
 				user.setPassword(encPassword);
@@ -146,6 +155,30 @@ public class UserService {
 			rollback(connection);
 			log.log(Level.SEVERE, new Object() {
 			}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
+			throw e;
+		} finally {
+			close(connection);
+		}
+	}
+
+	//アカウントが重複して登録されないようにバリデーションを実装
+	/*
+	 * String型の引数をもつ、selectメソッドを追加する
+	 */
+	public User select(String account) {
+
+		Connection connection = null;
+		try {
+			connection = getConnection();
+			User user = new UserDao().select(connection, account);
+			commit(connection);
+
+			return user;
+		} catch (RuntimeException e) {
+			rollback(connection);
+			throw e;
+		} catch (Error e) {
+			rollback(connection);
 			throw e;
 		} finally {
 			close(connection);

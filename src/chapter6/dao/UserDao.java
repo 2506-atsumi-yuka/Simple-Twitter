@@ -116,7 +116,7 @@ public class UserDao {
 			close(ps);
 		}
 	}
-
+	//toUsers…ResultSet(実行結果)をlist<User>に詰め替えている
 	private List<User> toUsers(ResultSet rs) throws SQLException {
 
 		log.info(new Object() {}.getClass().getEnclosingClass().getName() +
@@ -224,6 +224,40 @@ public class UserDao {
 		} catch (SQLException e) {
 			log.log(Level.SEVERE, new Object() {
 			}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
+			throw new SQLRuntimeException(e);
+		} finally {
+			close(ps);
+		}
+	}
+
+	//アカウントが重複して登録されないようにバリデーションを実装
+	/*
+	 * String型のaccountを引数にもつ、selectメソッドを追加する
+	 */
+	public User select(Connection connection, String account) {
+
+		PreparedStatement ps = null;
+		try {
+			String sql = "SELECT * FROM users WHERE account = ?";
+
+			ps = connection.prepareStatement(sql);
+			ps.setString(1, account);
+
+			//executeQuery()…sqlを実行 ResultSet…実行結果が入っている
+			ResultSet rs = ps.executeQuery();
+
+			//toUsers…rs(実行結果)をlist<User>に詰替え users…(詰替え後の)実行結果が入っている
+			List<User> users = toUsers(rs);
+
+			if (users.isEmpty()) { //データが無い状態＝重複していない場合はnullを返却
+				return null;
+			} else if (2 <= users.size()) { //(なぜかわからないが)既に重複が起きてしまっているので例外を投げ
+				throw new IllegalStateException("ユーザーが重複しています");
+			} else { //1番目の要素あり＝1個既にある＝重複している場合は1番目の要素を返却
+				return users.get(0);
+			}
+
+		} catch (SQLException e) {
 			throw new SQLRuntimeException(e);
 		} finally {
 			close(ps);

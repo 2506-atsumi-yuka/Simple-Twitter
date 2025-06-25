@@ -35,25 +35,21 @@ public class SignUpServlet extends HttpServlet {
 	}
 
 	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)  //登録画面の表示
 			throws IOException, ServletException {
 
-		log.info(new Object() {
-		}.getClass().getEnclosingClass().getName() +
-				" : " + new Object() {
-				}.getClass().getEnclosingMethod().getName());
+		log.info(new Object() {}.getClass().getEnclosingClass().getName() +
+		" : " + new Object() {}.getClass().getEnclosingMethod().getName());
 
 		request.getRequestDispatcher("signup.jsp").forward(request, response);
 	}
 
 	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)  //ユーザーの登録処理
 			throws IOException, ServletException {
 
-		log.info(new Object() {
-		}.getClass().getEnclosingClass().getName() +
-				" : " + new Object() {
-				}.getClass().getEnclosingMethod().getName());
+		log.info(new Object() {}.getClass().getEnclosingClass().getName() +
+		" : " + new Object() {}.getClass().getEnclosingMethod().getName());
 
 		List<String> errorMessages = new ArrayList<String>();
 
@@ -69,10 +65,8 @@ public class SignUpServlet extends HttpServlet {
 
 	private User getUser(HttpServletRequest request) throws IOException, ServletException {
 
-		log.info(new Object() {
-		}.getClass().getEnclosingClass().getName() +
-				" : " + new Object() {
-				}.getClass().getEnclosingMethod().getName());
+		log.info(new Object() {}.getClass().getEnclosingClass().getName() +
+		" : " + new Object() {}.getClass().getEnclosingMethod().getName());
 
 		User user = new User();
 		user.setName(request.getParameter("name"));
@@ -85,10 +79,8 @@ public class SignUpServlet extends HttpServlet {
 
 	private boolean isValid(User user, List<String> errorMessages) {
 
-		log.info(new Object() {
-		}.getClass().getEnclosingClass().getName() +
-				" : " + new Object() {
-				}.getClass().getEnclosingMethod().getName());
+		log.info(new Object() {}.getClass().getEnclosingClass().getName() +
+		" : " + new Object() {}.getClass().getEnclosingMethod().getName());
 
 		String name = user.getName();
 		String account = user.getAccount();
@@ -104,6 +96,9 @@ public class SignUpServlet extends HttpServlet {
 		} else if (20 < account.length()) {
 			errorMessages.add("アカウント名は20文字以下で入力してください");
 		}
+
+		//データが無い状態＝重複していない場合はnullが返却される
+
 
 		if (StringUtils.isEmpty(password)) {
 			errorMessages.add("パスワードを入力してください");
