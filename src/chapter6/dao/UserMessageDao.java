@@ -32,7 +32,7 @@ public class UserMessageDao {
 
 	}
 
-	public List<UserMessage> select(Connection connection, int num) {
+	public List<UserMessage> select(Connection connection, Integer id, int num) {
 
 		log.info(new Object() {
 		}.getClass().getEnclosingClass().getName() +" : " + new Object() {
@@ -51,9 +51,19 @@ public class UserMessageDao {
 			sql.append("FROM messages ");
 			sql.append("INNER JOIN users ");
 			sql.append("ON messages.user_id = users.id ");
-			sql.append("ORDER BY created_date DESC limit " + num);
+
+			/* idがnullだったら全件取得する
+			 idがnull以外だったら、その値に対応するユーザーIDの投稿を取得する*/
+			if(id != null) {
+				sql.append("WHERE user_id = ? "); //条件指定
+			}
+			sql.append("ORDER BY created_date DESC limit " + num);  //ORDER BY…ソート created_date DESC…作成日時の降順 Limit…上限を1000にする
 
 			ps = connection.prepareStatement(sql.toString());
+
+			if(id != null) {
+				ps.setInt(1, id);
+			}
 
 			ResultSet rs = ps.executeQuery();
 
@@ -70,10 +80,8 @@ public class UserMessageDao {
 
 	private List<UserMessage> toUserMessages(ResultSet rs) throws SQLException {
 
-		log.info(new Object() {
-		}.getClass().getEnclosingClass().getName() +
-				" : " + new Object() {
-				}.getClass().getEnclosingMethod().getName());
+		log.info(new Object() {}.getClass().getEnclosingClass().getName() +
+		" : " + new Object() {}.getClass().getEnclosingMethod().getName());
 
 		List<UserMessage> messages = new ArrayList<UserMessage>();
 		try {
