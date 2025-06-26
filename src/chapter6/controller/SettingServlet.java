@@ -40,8 +40,10 @@ public class SettingServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		log.info(new Object() {}.getClass().getEnclosingClass().getName() +
-		" : " + new Object() {}.getClass().getEnclosingMethod().getName());
+		log.info(new Object() {
+		}.getClass().getEnclosingClass().getName() +
+				" : " + new Object() {
+				}.getClass().getEnclosingMethod().getName());
 
 		HttpSession session = request.getSession();
 		User loginUser = (User) session.getAttribute("loginUser");
@@ -56,8 +58,10 @@ public class SettingServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		log.info(new Object() {}.getClass().getEnclosingClass().getName() +
-		" : " + new Object() {}.getClass().getEnclosingMethod().getName());
+		log.info(new Object() {
+		}.getClass().getEnclosingClass().getName() +
+				" : " + new Object() {
+				}.getClass().getEnclosingMethod().getName());
 
 		HttpSession session = request.getSession();
 		List<String> errorMessages = new ArrayList<String>();
@@ -86,8 +90,10 @@ public class SettingServlet extends HttpServlet {
 
 	private User getUser(HttpServletRequest request) throws IOException, ServletException {
 
-		log.info(new Object() {}.getClass().getEnclosingClass().getName() +
-		" : " + new Object() {}.getClass().getEnclosingMethod().getName());
+		log.info(new Object() {
+		}.getClass().getEnclosingClass().getName() +
+				" : " + new Object() {
+				}.getClass().getEnclosingMethod().getName());
 
 		User user = new User();
 		user.setId(Integer.parseInt(request.getParameter("id")));
@@ -101,8 +107,10 @@ public class SettingServlet extends HttpServlet {
 
 	private boolean isValid(User user, List<String> errorMessages) {
 
-		log.info(new Object() {}.getClass().getEnclosingClass().getName() +
-		" : " + new Object() {}.getClass().getEnclosingMethod().getName());
+		log.info(new Object() {
+		}.getClass().getEnclosingClass().getName() +
+				" : " + new Object() {
+				}.getClass().getEnclosingMethod().getName());
 
 		String name = user.getName();
 		String account = user.getAccount();
@@ -117,8 +125,10 @@ public class SettingServlet extends HttpServlet {
 			errorMessages.add("アカウント名は20文字以下で入力してください");
 		}
 
-		//データが無い状態＝重複していない場合はnullが返却される
-		if() {
+		User illegalUser = new UserService().select(account); //Serviceの呼び出し
+		/*データが無い状態＝重複していない場合はnullが返却される
+		 → nullではない かつ idが自分のものではない場合 →エラーメッセージを表示*/
+		if (illegalUser != null && illegalUser.getId() != user.getId()) {
 			errorMessages.add("既に存在するアカウントです");
 		}
 

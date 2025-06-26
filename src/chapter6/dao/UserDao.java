@@ -38,8 +38,10 @@ public class UserDao {
 	/*ユーザの登録*/
 	public void insert(Connection connection, User user) {
 
-		log.info(new Object() {}.getClass().getEnclosingClass().getName() +
-		" : " + new Object() {}.getClass().getEnclosingMethod().getName());
+		log.info(new Object() {
+		}.getClass().getEnclosingClass().getName() +
+				" : " + new Object() {
+				}.getClass().getEnclosingMethod().getName());
 
 		PreparedStatement ps = null;
 		try {
@@ -83,8 +85,10 @@ public class UserDao {
 	/*ログイン時*/
 	public User select(Connection connection, String accountOrEmail, String password) {
 
-		log.info(new Object() {}.getClass().getEnclosingClass().getName() +
-		" : " + new Object() {}.getClass().getEnclosingMethod().getName());
+		log.info(new Object() {
+		}.getClass().getEnclosingClass().getName() +
+				" : " + new Object() {
+				}.getClass().getEnclosingMethod().getName());
 
 		PreparedStatement ps = null;
 		try {
@@ -116,11 +120,14 @@ public class UserDao {
 			close(ps);
 		}
 	}
+
 	//toUsers…ResultSet(実行結果)をlist<User>に詰め替えている
 	private List<User> toUsers(ResultSet rs) throws SQLException {
 
-		log.info(new Object() {}.getClass().getEnclosingClass().getName() +
-		" : " + new Object() {}.getClass().getEnclosingMethod().getName());
+		log.info(new Object() {
+		}.getClass().getEnclosingClass().getName() +
+				" : " + new Object() {
+				}.getClass().getEnclosingMethod().getName());
 
 		List<User> users = new ArrayList<User>();
 		try {
@@ -146,8 +153,10 @@ public class UserDao {
 	//ログイン機能
 	public User select(Connection connection, int id) {
 
-		log.info(new Object() {}.getClass().getEnclosingClass().getName() +
-		" : " + new Object() {}.getClass().getEnclosingMethod().getName());
+		log.info(new Object() {
+		}.getClass().getEnclosingClass().getName() +
+				" : " + new Object() {
+				}.getClass().getEnclosingMethod().getName());
 
 		PreparedStatement ps = null;
 		try {
@@ -180,8 +189,10 @@ public class UserDao {
 	//ユーザー情報の変更機能
 	public void update(Connection connection, User user) {
 
-		log.info(new Object() {}.getClass().getEnclosingClass().getName() +
-		" : " + new Object() {}.getClass().getEnclosingMethod().getName());
+		log.info(new Object() {
+		}.getClass().getEnclosingClass().getName() +
+				" : " + new Object() {
+				}.getClass().getEnclosingMethod().getName());
 
 		PreparedStatement ps = null;
 		try {
@@ -199,14 +210,14 @@ public class UserDao {
 			sql.append("    updated_date = CURRENT_TIMESTAMP ");
 			sql.append("WHERE id = ?");
 
-			ps = connection.prepareStatement(sql.toString());  //実行
+			ps = connection.prepareStatement(sql.toString()); //実行
 
 			ps.setString(1, user.getAccount());
 			ps.setString(2, user.getName());
 			ps.setString(3, user.getEmail());
 
 			//パスワードに入力がない場合、パスワードは更新しない
-			if(StringUtils.isBlank(user.getPassword())) {
+			if (StringUtils.isBlank(user.getPassword())) {
 				ps.setString(4, user.getDescription());
 				ps.setInt(5, user.getId());
 			} else {
