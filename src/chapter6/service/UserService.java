@@ -136,7 +136,8 @@ public class UserService {
 		Connection connection = null;
 		try {
 			//パスワードに入力がない場合、パスワードは更新しない
-			if (StringUtils.isNotBlank(user.getPassword())) { //パスワードの入力あり
+			//↓パスワードの入力あり
+			if (StringUtils.isNotBlank(user.getPassword())) {
 				// パスワード暗号化
 				String encPassword = CipherUtil.encrypt(user.getPassword());
 				user.setPassword(encPassword);

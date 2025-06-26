@@ -47,7 +47,8 @@ public class SignUpServlet extends HttpServlet {
 	}
 
 	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) //ユーザーの登録処理
+	//ユーザーの登録処理
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
 
 		log.info(new Object() {
@@ -106,8 +107,8 @@ public class SignUpServlet extends HttpServlet {
 		}
 
 		//データが無い状態＝重複していない場合はnullが返却される
-		User illegalUser = new UserService().select(account); //Serviceの呼び出し
-		if (illegalUser != null) {
+		User deplicateUser = new UserService().select(account);
+		if (deplicateUser != null) {
 			errorMessages.add("既に存在しているアカウントです");
 		}
 

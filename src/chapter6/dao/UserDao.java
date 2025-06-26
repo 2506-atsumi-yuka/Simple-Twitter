@@ -260,11 +260,14 @@ public class UserDao {
 			//toUsers…rs(実行結果)をlist<User>に詰替え users…(詰替え後の)実行結果が入っている
 			List<User> users = toUsers(rs);
 
-			if (users.isEmpty()) { //データが無い状態＝重複していない場合はnullを返却
+			//データが無い状態＝重複していない場合はnullを返却
+			if (users.isEmpty()) {
 				return null;
-			} else if (2 <= users.size()) { //(なぜかわからないが)既に重複が起きてしまっているので例外を投げ
+			//(なぜかわからないが)既に重複が起きてしまっているので例外を投げ
+			} else if (2 <= users.size()) {
 				throw new IllegalStateException("ユーザーが重複しています");
-			} else { //1番目の要素あり＝1個既にある＝重複している場合は1番目の要素を返却
+			//1番目の要素あり＝1個既にある＝重複している場合は1番目の要素を返却
+			} else {
 				return users.get(0);
 			}
 
