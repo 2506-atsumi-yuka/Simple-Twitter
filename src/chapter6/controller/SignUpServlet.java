@@ -107,8 +107,8 @@ public class SignUpServlet extends HttpServlet {
 		}
 
 		//データが無い状態＝重複していない場合はnullが返却される
-		User deplicateUser = new UserService().select(account);
-		if (deplicateUser != null) {
+		User duplicateUser = new UserService().select(account);
+		if (duplicateUser != null) {
 			errorMessages.add("既に存在しているアカウントです");
 		}
 

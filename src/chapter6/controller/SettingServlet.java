@@ -125,10 +125,10 @@ public class SettingServlet extends HttpServlet {
 			errorMessages.add("アカウント名は20文字以下で入力してください");
 		}
 
-		User deplicateUser = new UserService().select(account);
+		User duplicateUser = new UserService().select(account);
 		/*データが無い状態＝重複していない場合はnullが返却される
 		 → nullではない かつ idが自分のものではない場合 →エラーメッセージを表示*/
-		if (deplicateUser != null && deplicateUser.getId() != user.getId()) {
+		if (duplicateUser != null && duplicateUser.getId() != user.getId()) {
 			errorMessages.add("既に存在するアカウントです");
 		}
 
