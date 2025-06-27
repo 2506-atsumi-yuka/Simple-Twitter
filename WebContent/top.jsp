@@ -91,6 +91,12 @@
 						<fmt:formatDate value="${message.createdDate}"
 							pattern="yyyy/MM/dd HH:mm:ss" />
 					</div>
+					<%--つぶやきの削除ボタン --%>
+					<%--「action」→servletへ送る --%>
+					<form action="deleteMessage" method="post">
+						<input name="deleteId" value="${message.id}" id="id" type="hidden" />
+						<input type="submit" value="削除">
+					</form>
 				</div>
 			</c:forEach>
 		</div>

@@ -66,4 +66,32 @@ public class MessageDao {
 			close(ps);
 		}
 	}
+
+	//つぶやきの削除
+	public void delete(Connection connection, Message message) {
+
+		log.info(new Object() {
+		}.getClass().getEnclosingClass().getName() +
+				" : " + new Object() {
+				}.getClass().getEnclosingMethod().getName());
+
+		PreparedStatement ps = null;
+		try {
+			StringBuilder sql = new StringBuilder();
+			//特定のつぶやきの削除→「id」を条件指定
+			sql.append("DELETE FROM messages");
+			sql.append("WHERE id = ?");
+
+			ps = connection.prepareStatement(sql.toString());
+			ps.setInt(1, message.getId());
+
+			ps.executeUpdate();
+		} catch (SQLException e) {
+			log.log(Level.SEVERE, new Object() {
+			}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
+			throw new SQLRuntimeException(e);
+		} finally {
+			close(ps);
+		}
+	}
 }
