@@ -68,7 +68,7 @@ public class MessageDao {
 	}
 
 	//つぶやきの削除
-	public void delete(Connection connection, Message message) {
+	public void delete(Connection connection, int deleteId) {
 
 		log.info(new Object() {
 		}.getClass().getEnclosingClass().getName() +
@@ -79,11 +79,11 @@ public class MessageDao {
 		try {
 			StringBuilder sql = new StringBuilder();
 			//特定のつぶやきの削除→「id」を条件指定
-			sql.append("DELETE FROM messages");
-			sql.append("WHERE id = ?");
+			sql.append("DELETE FROM messages ");
+			sql.append("WHERE id = ? ");
 
 			ps = connection.prepareStatement(sql.toString());
-			ps.setInt(1, message.getId());
+			ps.setInt(1, deleteId);
 
 			ps.executeUpdate();
 		} catch (SQLException e) {

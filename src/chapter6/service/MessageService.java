@@ -113,7 +113,7 @@ public class MessageService {
 	}
 
 	//つぶやきの削除
-	public void delete(Message message) {
+	public void delete(int deleteId) {
 
 		log.info(new Object() {
 		}.getClass().getEnclosingClass().getName() +
@@ -123,7 +123,7 @@ public class MessageService {
 		Connection connection = null;
 		try {
 			connection = getConnection();
-			new MessageDao().delete(connection, message);
+			new MessageDao().delete(connection, deleteId);
 			commit(connection);
 		} catch (RuntimeException e) {
 			rollback(connection);

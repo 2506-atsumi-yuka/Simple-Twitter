@@ -37,6 +37,7 @@ public class MessageServlet extends HttpServlet {
 
 	}
 
+	//つぶやきを投稿
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
@@ -47,7 +48,9 @@ public class MessageServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		List<String> errorMessages = new ArrayList<String>();
 
+		//jspのtextのデータを取得している
 		String text = request.getParameter("text");
+
 		if (!isValid(text, errorMessages)) {
 			session.setAttribute("errorMessages", errorMessages);
 			response.sendRedirect("./");
