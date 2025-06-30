@@ -4,7 +4,10 @@ import static chapter6.utils.CloseableUtil.*;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -13,7 +16,7 @@ import chapter6.exception.SQLRuntimeException;
 import chapter6.logging.InitApplication;
 
 public class MessageDao {
-/*つぶやき機能*/
+	/*つぶやき機能*/
 
 	/**
 	* ロガーインスタンスの生成
@@ -92,6 +95,65 @@ public class MessageDao {
 			throw new SQLRuntimeException(e);
 		} finally {
 			close(ps);
+		}
+	}
+
+	//つぶやきの編集画面の表示
+	public Message select(Connection connection, int editId) {
+
+		log.info(new Object() {
+		}.getClass().getEnclosingClass().getName() +
+				" : " + new Object() {
+				}.getClass().getEnclosingMethod().getName());
+
+		PreparedStatement ps = null;
+		try {
+			StringBuilder sql = new StringBuilder();
+			//特定のつぶやきの編集→「id」を条件指定
+			sql.append("SELECT * FROM messages ");
+			sql.append("WHERE id = ? ");
+
+			ps = connection.prepareStatement(sql.toString());
+			ps.setInt(1, editId);
+
+			ResultSet rs = ps.executeQuery();
+			List<Message> editMessage = toMessages(rs);
+
+			//Listの中の要素を一つだけ取り出して返却（0番目）
+			return editMessage.get(0);
+
+		} catch (SQLException e) {
+			log.log(Level.SEVERE, new Object() {
+			}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
+			throw new SQLRuntimeException(e);
+		} finally {
+			close(ps);
+		}
+	}
+
+	//SQLのResultSet型の実行結果をList<Message>型に詰め替える
+	private List<Message> toMessages(ResultSet rs) throws SQLException {
+
+		log.info(new Object() {
+		}.getClass().getEnclosingClass().getName() +
+				" : " + new Object() {
+				}.getClass().getEnclosingMethod().getName());
+
+		List<Message> editMessage = new ArrayList<Message>();
+		try {
+			while (rs.next()) {
+				Message message = new Message();
+				message.setId(rs.getInt("id"));
+				message.setText(rs.getString("text"));
+				message.setUserId(rs.getInt("user_id"));
+				message.setCreatedDate(rs.getTimestamp("created_date"));
+				message.setUpdatedDate(rs.getTimestamp("updated_date"));
+
+				editMessage.add(message);
+			}
+			return editMessage;
+		} finally {
+			close(rs);
 		}
 	}
 }

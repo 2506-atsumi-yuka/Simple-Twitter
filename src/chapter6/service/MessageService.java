@@ -138,6 +138,33 @@ public class MessageService {
 		} finally {
 			close(connection);
 		}
+	}
 
+	//つぶやきの編集画面の表示
+	public int select(Connection connection, int editId) {
+
+		log.info(new Object() {
+		}.getClass().getEnclosingClass().getName() +
+				" : " + new Object() {
+				}.getClass().getEnclosingMethod().getName());
+
+		try {
+			connection = getConnection();
+			new MessageDao().select(connection, editId);
+			return editId;
+
+		} catch (RuntimeException e) {
+			rollback(connection);
+			log.log(Level.SEVERE, new Object() {
+			}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
+			throw e;
+		} catch (Error e) {
+			rollback(connection);
+			log.log(Level.SEVERE, new Object() {
+			}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
+			throw e;
+		} finally {
+			close(connection);
+		}
 	}
 }

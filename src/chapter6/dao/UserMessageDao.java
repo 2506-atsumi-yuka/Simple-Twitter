@@ -16,7 +16,8 @@ import chapter6.exception.SQLRuntimeException;
 import chapter6.logging.InitApplication;
 
 public class UserMessageDao {
-//DBの表結合から値を取得する
+	//メッセージの表示機能の実装
+	//DBの表結合から値を取得する
 	/**
 	* ロガーインスタンスの生成
 	*/
@@ -32,10 +33,11 @@ public class UserMessageDao {
 
 	}
 
+	/*Top画面　つぶやき表示*/
 	public List<UserMessage> select(Connection connection, Integer id, int num) {
 
 		log.info(new Object() {
-		}.getClass().getEnclosingClass().getName() +" : " + new Object() {
+		}.getClass().getEnclosingClass().getName() + " : " + new Object() {
 		}.getClass().getEnclosingMethod().getName());
 
 		PreparedStatement ps = null;
@@ -54,14 +56,14 @@ public class UserMessageDao {
 
 			/* idがnullだったら全件取得する
 			 idがnull以外だったら、その値に対応するユーザーIDの投稿を取得する*/
-			if(id != null) {
+			if (id != null) {
 				sql.append("WHERE user_id = ? "); //条件指定
 			}
-			sql.append("ORDER BY created_date DESC limit " + num);  //ORDER BY…ソート created_date DESC…作成日時の降順 Limit…上限を1000にする
+			sql.append("ORDER BY created_date DESC limit " + num); //ORDER BY…ソート created_date DESC…作成日時の降順 Limit…上限を1000にする
 
 			ps = connection.prepareStatement(sql.toString());
 
-			if(id != null) {
+			if (id != null) {
 				ps.setInt(1, id);
 			}
 
@@ -78,10 +80,13 @@ public class UserMessageDao {
 		}
 	}
 
+	//SQLのResultSet型の実行結果をList<UserMessage>型に詰め替える
 	private List<UserMessage> toUserMessages(ResultSet rs) throws SQLException {
 
-		log.info(new Object() {}.getClass().getEnclosingClass().getName() +
-		" : " + new Object() {}.getClass().getEnclosingMethod().getName());
+		log.info(new Object() {
+		}.getClass().getEnclosingClass().getName() +
+				" : " + new Object() {
+				}.getClass().getEnclosingMethod().getName());
 
 		List<UserMessage> messages = new ArrayList<UserMessage>();
 		try {
