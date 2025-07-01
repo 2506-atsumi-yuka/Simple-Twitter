@@ -140,7 +140,7 @@ public class MessageService {
 		}
 	}
 
-	//つぶやきの編集画面の表示
+	//つぶやきの編集画面の表示（select）
 	public int select(Connection connection, int editId) {
 
 		log.info(new Object() {
@@ -153,6 +153,33 @@ public class MessageService {
 			new MessageDao().select(connection, editId);
 			return editId;
 
+		} catch (RuntimeException e) {
+			rollback(connection);
+			log.log(Level.SEVERE, new Object() {
+			}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
+			throw e;
+		} catch (Error e) {
+			rollback(connection);
+			log.log(Level.SEVERE, new Object() {
+			}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
+			throw e;
+		} finally {
+			close(connection);
+		}
+	}
+
+	//つぶやきの編集（update）
+	public void update(Connection connection, Message editId, Message editText) {
+
+		log.info(new Object() {
+		}.getClass().getEnclosingClass().getName() +
+				" : " + new Object() {
+				}.getClass().getEnclosingMethod().getName());
+
+		try {
+			connection = getConnection();
+			new MessageDao().update(connection, editId, editText);
+			commit(connection);
 		} catch (RuntimeException e) {
 			rollback(connection);
 			log.log(Level.SEVERE, new Object() {

@@ -98,7 +98,7 @@ public class MessageDao {
 		}
 	}
 
-	//つぶやきの編集画面の表示
+	//つぶやきの編集画面の表示（select）
 	public Message select(Connection connection, int editId) {
 
 		log.info(new Object() {
@@ -154,6 +154,36 @@ public class MessageDao {
 			return editMessage;
 		} finally {
 			close(rs);
+		}
+	}
+
+	//つぶやきの編集（update）
+	public void update(Connection connection, Message editId, Message editText) {
+
+		log.info(new Object() {
+		}.getClass().getEnclosingClass().getName() +
+				" : " + new Object() {
+				}.getClass().getEnclosingMethod().getName());
+
+		PreparedStatement ps = null;
+		try {
+			StringBuilder sql = new StringBuilder();
+			sql.append("UPDATE messages SET ");
+			sql.append("    text = ? ");
+			//特定のつぶやきの編集→「id」を条件指定
+			sql.append("WHERE id = ? ");
+
+			ps = connection.prepareStatement(sql.toString());
+			ps.setString(1, editText.getText());
+			ps.setInt(2, editId.getId());
+
+			ps.executeUpdate();
+		} catch (SQLException e) {
+			log.log(Level.SEVERE, new Object() {
+			}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
+			throw new SQLRuntimeException(e);
+		} finally {
+			close(ps);
 		}
 	}
 }
