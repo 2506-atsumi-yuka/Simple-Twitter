@@ -106,7 +106,7 @@
 					<div class="edit-button">
 						<c:if test="${message.userId == loginUser.id}">
 							<form action="edit" method="get">
-							<input name="editId" value="${message.id}" type="hidden" /> <input
+							<input name="id" value="${message.id}" type="hidden" /> <input
 									type="submit" value="編集">
 							</form>
 						</c:if>

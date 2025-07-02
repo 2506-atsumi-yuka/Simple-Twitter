@@ -99,7 +99,7 @@ public class MessageDao {
 	}
 
 	//つぶやきの編集画面の表示（select）
-	public Message select(Connection connection, int editId) {
+	public Message select(Connection connection, int id) {
 
 		log.info(new Object() {
 		}.getClass().getEnclosingClass().getName() +
@@ -114,13 +114,13 @@ public class MessageDao {
 			sql.append("WHERE id = ? ");
 
 			ps = connection.prepareStatement(sql.toString());
-			ps.setInt(1, editId);
+			ps.setInt(1, id);
 
 			ResultSet rs = ps.executeQuery();
-			List<Message> editMessage = toMessages(rs);
+			List<Message> messages = toMessages(rs);
 
 			//Listの中の要素を一つだけ取り出して返却（0番目）
-			return editMessage.get(0);
+			return messages.get(0);
 
 		} catch (SQLException e) {
 			log.log(Level.SEVERE, new Object() {
@@ -158,7 +158,7 @@ public class MessageDao {
 	}
 
 	//つぶやきの編集（update）
-	public void update(Connection connection, Message editId, Message editText) {
+	public void update(Connection connection, Message message) {
 
 		log.info(new Object() {
 		}.getClass().getEnclosingClass().getName() +
@@ -169,13 +169,14 @@ public class MessageDao {
 		try {
 			StringBuilder sql = new StringBuilder();
 			sql.append("UPDATE messages SET ");
-			sql.append("    text = ? ");
+			sql.append("    text = ?, ");
+			sql.append("    updated_date = CURRENT_TIMESTAMP ");
 			//特定のつぶやきの編集→「id」を条件指定
 			sql.append("WHERE id = ? ");
 
 			ps = connection.prepareStatement(sql.toString());
-			ps.setString(1, editText.getText());
-			ps.setInt(2, editId.getId());
+			ps.setString(1,  message.getText());
+			ps.setInt(2,  message.getId());
 
 			ps.executeUpdate();
 		} catch (SQLException e) {

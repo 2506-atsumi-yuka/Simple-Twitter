@@ -141,17 +141,19 @@ public class MessageService {
 	}
 
 	//つぶやきの編集画面の表示（select）
-	public int select(Connection connection, int editId) {
+	public Message select(int messageId) {
 
 		log.info(new Object() {
 		}.getClass().getEnclosingClass().getName() +
 				" : " + new Object() {
 				}.getClass().getEnclosingMethod().getName());
 
+		Connection connection = null;
 		try {
 			connection = getConnection();
-			new MessageDao().select(connection, editId);
-			return editId;
+			Message message = new MessageDao().select(connection, messageId);
+			commit(connection);
+			return message;
 
 		} catch (RuntimeException e) {
 			rollback(connection);
@@ -169,16 +171,18 @@ public class MessageService {
 	}
 
 	//つぶやきの編集（update）
-	public void update(Connection connection, Message editId, Message editText) {
+	public void update(Message message) {
 
 		log.info(new Object() {
 		}.getClass().getEnclosingClass().getName() +
 				" : " + new Object() {
 				}.getClass().getEnclosingMethod().getName());
 
+		Connection connection = null;
+
 		try {
 			connection = getConnection();
-			new MessageDao().update(connection, editId, editText);
+			new MessageDao().update(connection, message);
 			commit(connection);
 		} catch (RuntimeException e) {
 			rollback(connection);
