@@ -85,15 +85,17 @@
 						<span class="name"><c:out value="${message.name}" /></span>
 					</div>
 					<div class="text">
-						<c:out value="${message.text}" />
+						<%--pre要素・・・整形済みテキスト（半角、スペース、改行を反映）--%>
+						<pre><c:out value="${message.text}" /></pre>
 					</div>
 					<div class="date">
 						<fmt:formatDate value="${message.createdDate}"
 							pattern="yyyy/MM/dd HH:mm:ss" />
 					</div>
+
 					<%--つぶやきの削除ボタン --%>
 					<div class="delete-button">
-						<%--「つぶやいた人のuser_id」と「ログインしている人のID」が同じ→ボタン表示--%>>
+						<%--「つぶやいた人のuser_id」と「ログインしている人のID」が同じ→ボタン表示--%>
 						<c:if test="${message.userId == loginUser.id}">
 							<%--「action」→servletへ送る --%>
 							<form action="deleteMessage" method="post">
@@ -102,11 +104,12 @@
 							</form>
 						</c:if>
 					</div>
+
 					<%--つぶやきの編集ボタン --%>
 					<div class="edit-button">
 						<c:if test="${message.userId == loginUser.id}">
 							<form action="edit" method="get">
-							<input name="id" value="${message.id}" type="hidden" /> <input
+								<input name="id" value="${message.id}" type="hidden" /> <input
 									type="submit" value="編集">
 							</form>
 						</c:if>

@@ -119,8 +119,13 @@ public class MessageDao {
 			ResultSet rs = ps.executeQuery();
 			List<Message> messages = toMessages(rs);
 
-			//Listの中の要素を一つだけ取り出して返却（0番目）
-			return messages.get(0);
+			//データが0件だった場合、nullで返す
+			if (messages.isEmpty()) {
+				return null;
+			} else {
+				//Listの中の要素を一つだけ取り出して返却（0番目）
+				return messages.get(0);
+			}
 
 		} catch (SQLException e) {
 			log.log(Level.SEVERE, new Object() {
@@ -175,8 +180,8 @@ public class MessageDao {
 			sql.append("WHERE id = ? ");
 
 			ps = connection.prepareStatement(sql.toString());
-			ps.setString(1,  message.getText());
-			ps.setInt(2,  message.getId());
+			ps.setString(1, message.getText());
+			ps.setInt(2, message.getId());
 
 			ps.executeUpdate();
 		} catch (SQLException e) {

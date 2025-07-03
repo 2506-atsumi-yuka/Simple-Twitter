@@ -21,7 +21,7 @@ import chapter6.service.MessageService;
 
 @WebServlet(urlPatterns = { "/message" })
 public class MessageServlet extends HttpServlet {
-//メッセージのつぶやき機能
+	//メッセージのつぶやき機能
 	/**
 	* ロガーインスタンスの生成
 	*/
@@ -42,8 +42,10 @@ public class MessageServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
 
-		log.info(new Object() {}.getClass().getEnclosingClass().getName() +
-		" : " + new Object() {}.getClass().getEnclosingMethod().getName());
+		log.info(new Object() {
+		}.getClass().getEnclosingClass().getName() +
+				" : " + new Object() {
+				}.getClass().getEnclosingMethod().getName());
 
 		HttpSession session = request.getSession();
 		List<String> errorMessages = new ArrayList<String>();
@@ -52,7 +54,7 @@ public class MessageServlet extends HttpServlet {
 		String text = request.getParameter("text");
 
 		if (!isValid(text, errorMessages)) {
-			request.setAttribute("errorMessages", errorMessages);
+			session.setAttribute("errorMessages", errorMessages);
 			response.sendRedirect("./");
 			return;
 		}
@@ -69,8 +71,10 @@ public class MessageServlet extends HttpServlet {
 
 	private boolean isValid(String text, List<String> errorMessages) {
 
-		log.info(new Object() {}.getClass().getEnclosingClass().getName() +
-		" : " + new Object() {}.getClass().getEnclosingMethod().getName());
+		log.info(new Object() {
+		}.getClass().getEnclosingClass().getName() +
+				" : " + new Object() {
+				}.getClass().getEnclosingMethod().getName());
 
 		if (StringUtils.isBlank(text)) {
 			errorMessages.add("メッセージを入力してください");
