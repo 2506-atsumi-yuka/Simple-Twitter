@@ -54,7 +54,7 @@ public class EditServlet extends HttpServlet {
 		String messageId = request.getParameter("id");
 
 		//削除した場合（空白の場合）、数字以外をチェック
-		if (StringUtils.isBlank(messageId) || (!messageId.matches("^[0-9]+$"))) {
+		if (StringUtils.isBlank(messageId) || !messageId.matches("^[0-9]+$")) {
 			errorMessages.add("不正なパラメータが入力されました");
 			session.setAttribute("errorMessages", errorMessages);
 			response.sendRedirect("./");
