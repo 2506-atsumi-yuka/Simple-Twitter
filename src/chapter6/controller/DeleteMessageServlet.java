@@ -43,7 +43,6 @@ public class DeleteMessageServlet extends HttpServlet {
 
 		//serviceのdelete文を呼び出し →redirectで"/deleteMessage"へ移動
 		new MessageService().delete(deleteId);
-		request.setAttribute("deleteId", deleteId);
 		response.sendRedirect("./");
 	}
 }

@@ -53,8 +53,8 @@ public class EditServlet extends HttpServlet {
 		//top.jspから情報を受け取る
 		String messageId = request.getParameter("id");
 
-		//idが数字以外、削除した場合（空白の場合）→エラー
-		if (messageId.matches("^[^0-9]+$") || StringUtils.isBlank(messageId)) {
+		//削除した場合（空白の場合）、数字以外をチェック
+		if (StringUtils.isBlank(messageId) || (!messageId.matches("^[0-9]+$"))) {
 			errorMessages.add("不正なパラメータが入力されました");
 			session.setAttribute("errorMessages", errorMessages);
 			response.sendRedirect("./");
@@ -97,7 +97,7 @@ public class EditServlet extends HttpServlet {
 
 		//テキストエリアのバリデーション
 		List<String> errorMessages = new ArrayList<String>();
-		if (!isValid(text, errorMessages)) {
+		if (!isValid(text, errorMessages)){
 			request.setAttribute("errorMessages", errorMessages);
 			request.setAttribute("message", message);
 			request.getRequestDispatcher("edit.jsp").forward(request, response);

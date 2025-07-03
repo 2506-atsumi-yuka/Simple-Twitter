@@ -77,11 +77,11 @@
 				<div class="message">
 					<div class="account-name">
 						<%--特定のユーザーのつぶやきだけ表示 --%>
-						<span class="account"> <a
-							href="./?user_id=<c:out value="${message.userId}"/> "> <c:out
-									value="${message.account}" />
-						</a>
-						</span> <span class="account"><c:out value="${message.account}" /></span>
+						<span class="account">
+							<a href="./?user_id=<c:out value="${message.userId}"/> ">
+							<c:out value="${message.account}" /></a>
+						</span>
+						<span class="account"><c:out value="${message.account}" /></span>
 						<span class="name"><c:out value="${message.name}" /></span>
 					</div>
 					<div class="text">
@@ -93,27 +93,24 @@
 							pattern="yyyy/MM/dd HH:mm:ss" />
 					</div>
 
-					<%--つぶやきの削除ボタン --%>
-					<div class="delete-button">
+					<div class="button-area">
 						<%--「つぶやいた人のuser_id」と「ログインしている人のID」が同じ→ボタン表示--%>
 						<c:if test="${message.userId == loginUser.id}">
+							<%--つぶやきの削除ボタン --%>
 							<%--「action」→servletへ送る --%>
 							<form action="deleteMessage" method="post">
-								<input name="deleteId" value="${message.id}" type="hidden" /> <input
-									type="submit" value="削除">
+								<input name="deleteId" value="${message.id}" type="hidden" />
+								<input type="submit" value="削除">
 							</form>
-						</c:if>
-					</div>
 
-					<%--つぶやきの編集ボタン --%>
-					<div class="edit-button">
-						<c:if test="${message.userId == loginUser.id}">
+							<%--つぶやきの編集ボタン --%>
 							<form action="edit" method="get">
-								<input name="id" value="${message.id}" type="hidden" /> <input
-									type="submit" value="編集">
+								<input name="id" value="${message.id}" type="hidden" />
+								<input type="submit" value="編集">
 							</form>
 						</c:if>
 					</div>
+				</div>
 			</c:forEach>
 		</div>
 

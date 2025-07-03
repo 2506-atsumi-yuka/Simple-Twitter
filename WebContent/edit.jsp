@@ -56,12 +56,12 @@
 	<%--テキストエリアとサブミット用のボタン --%>
 	<div class="form-area">
 		<form action="edit" method="post">
-			<label for="name">つぶやきの編集</label><br /> <input name="id"
-				value="${message.id}" id="id" type="hidden" />
-			<textarea name="text" cols="100" rows="5" class="tweet-box"><c:out
-					value="${message.text}" /></textarea>
-			<br /> <input type="submit" value="更新">（140文字まで） <a
-				href="./">戻る</a>
+			<label for="name">つぶやきの編集</label><br />
+			<input name="id" value="${message.id}" id="id" type="hidden" />
+			<textarea name="text" cols="100" rows="5" class="tweet-box">
+			<c:out value="${message.text}" /></textarea><br />
+			<input type="submit" value="更新">（140文字まで
+			<a href="./">戻る</a>
 		</form>
 	</div>
 
