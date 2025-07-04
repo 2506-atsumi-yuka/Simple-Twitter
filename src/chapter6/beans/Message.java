@@ -40,7 +40,4 @@ public class Message implements Serializable {
 	public void setUpdatedDate(Date updatedDate) {
 		this.updatedDate = updatedDate;
 	}
-
-    // getter/setterは省略されているので、自分で記述しましょう。
-
 }
