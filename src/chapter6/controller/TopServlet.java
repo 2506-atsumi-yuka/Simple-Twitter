@@ -39,8 +39,10 @@ public class TopServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
 
-		log.info(new Object() {}.getClass().getEnclosingClass().getName() +
-		" : " + new Object() {}.getClass().getEnclosingMethod().getName());
+		log.info(new Object() {
+		}.getClass().getEnclosingClass().getName() +
+				" : " + new Object() {
+				}.getClass().getEnclosingMethod().getName());
 
 		/*セッションからログインユーザーのオブジェクトを取得できた場合・・・true
 		  (ログインしていればtrue、していなければfalse)*/
@@ -62,14 +64,14 @@ public class TopServlet extends HttpServlet {
 		String start = request.getParameter("start");
 		String end = request.getParameter("end");
 
-        List<UserMessage> messages = new MessageService().select(userId, start, end);
-        List<UserComment> comments = new CommentService().select();
+		List<UserMessage> messages = new MessageService().select(userId, start, end);
+		List<UserComment> comments = new CommentService().select();
 
-        //jspに渡す
-        request.setAttribute("start", start);
+		//jspに渡す
+		request.setAttribute("start", start);
 		request.setAttribute("end", end);
-        request.setAttribute("messages", messages);
-        request.setAttribute("comments", comments);
+		request.setAttribute("messages", messages);
+		request.setAttribute("comments", comments);
 		request.setAttribute("isShowMessageForm", isShowMessageForm);
 		request.getRequestDispatcher("/top.jsp").forward(request, response);
 	}

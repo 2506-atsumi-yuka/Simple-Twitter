@@ -140,21 +140,17 @@
 					<c:forEach items="${comments}" var="comment">
 						<c:if test="${ comment.messageId == message.id }">
 							<div class="account-name">
-								<span class="account">
-								<a href="./?user_id=<c:out value="${comment.userId}"/> ">
-								<c:out value="${comment.account}" /></a>
-								</span>
 								<span class="account"><c:out value="${comment.account}" /></span>
 								<span class="name"><c:out value="${comment.name}" /></span>
 							</div>
-						<div class="text">
-							<%--pre要素・・・整形済みテキスト（半角、スペース、改行を反映）--%>
-							<pre><c:out value="${comment.text}" /></pre>
-						</div>
-						<div class="date">
-							<fmt:formatDate value="${comment.createdDate}"
-								pattern="yyyy/MM/dd HH:mm:ss" />
-						</div>
+							<div class="text">
+								<%--pre要素・・・整形済みテキスト（半角、スペース、改行を反映）--%>
+								<pre><c:out value="${comment.text}" /></pre>
+							</div>
+							<div class="date">
+								<fmt:formatDate value="${comment.createdDate}"
+									pattern="yyyy/MM/dd HH:mm:ss" />
+							</div>
 						</c:if>
 					</c:forEach>
 				</div>

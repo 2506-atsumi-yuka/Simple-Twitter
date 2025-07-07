@@ -74,8 +74,6 @@ public class UserMessageDao {
 				ps.setInt(3, id);
 			}
 
-
-
 			ResultSet rs = ps.executeQuery();
 
 			List<UserMessage> messages = toUserMessages(rs);
