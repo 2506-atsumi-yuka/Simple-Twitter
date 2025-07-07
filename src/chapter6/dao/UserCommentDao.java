@@ -82,7 +82,7 @@ public class UserCommentDao {
 				comment.setMessageId(rs.getInt("message_id"));
 				comment.setAccount(rs.getString("account"));
 				comment.setName(rs.getString("name"));
-				comment.setCreatedDate(rs.getDate("created_date"));
+				comment.setCreatedDate(rs.getTimestamp("created_date"));
 
 				comments.add(comment);
 			}

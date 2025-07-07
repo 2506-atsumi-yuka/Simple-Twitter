@@ -1,7 +1,7 @@
 package chapter6.beans;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.util.Date;
 
 public class UserComment implements Serializable {
 

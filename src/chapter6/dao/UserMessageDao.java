@@ -34,7 +34,7 @@ public class UserMessageDao {
 	}
 
 	/*Top画面　つぶやき表示*/
-	public List<UserMessage> select(Connection connection, Integer id, int num) {
+	public List<UserMessage> select(Connection connection, Integer id, String start, String end, int num) {
 
 		log.info(new Object() {
 		}.getClass().getEnclosingClass().getName() + " : " + new Object() {
@@ -53,19 +53,28 @@ public class UserMessageDao {
 			sql.append("FROM messages ");
 			sql.append("INNER JOIN users ");
 			sql.append("ON messages.user_id = users.id ");
+			//つぶやきの絞り込み(条件指定1個目)
+			sql.append("WHERE messages.created_date BETWEEN ? AND ? ");
 
 			/* idがnullだったら全件取得する
 			 idがnull以外だったら、その値に対応するユーザーIDの投稿を取得する*/
 			if (id != null) {
-				sql.append("WHERE user_id = ? "); //条件指定
+				sql.append("AND user_id = ? "); //条件指定2個目
 			}
-			sql.append("ORDER BY created_date DESC limit " + num); //ORDER BY…ソート created_date DESC…作成日時の降順 Limit…上限を1000にする
+			//ORDER BY…ソート created_date DESC…作成日時の降順 Limit…上限を1000にする
+			sql.append("ORDER BY created_date DESC limit " + num);
 
 			ps = connection.prepareStatement(sql.toString());
 
+			//serviceでデフォルト値を用意→引数としてDaoに渡す
+			ps.setString(1, start);
+			ps.setString(2, end);
+
 			if (id != null) {
-				ps.setInt(1, id);
+				ps.setInt(3, id);
 			}
+
+
 
 			ResultSet rs = ps.executeQuery();
 
