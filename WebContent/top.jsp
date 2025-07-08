@@ -9,11 +9,13 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>簡易Twitter</title>
-
 <%--スタイルシート --%>
 <link href="./css/style.css" rel="stylesheet" type="text/css">
+<%--jQueryの読み込み --%>
+<script src = "./js/jquery-3.7.1.min.js" ></script>
+<script src = "./js/jquery-3.7.1.js" ></script>
+<script src = "./js/main.js" ></script>
 </head>
-
 <body>
 	<div class="main-contents">
 
@@ -110,7 +112,7 @@
 							<%--「action」→servletへ送る --%>
 							<form action="deleteMessage" method="post">
 								<input name="deleteId" value="${message.id}" type="hidden" />
-								<input type="submit" value="削除">
+								<input id="delete" type="submit" value="削除">
 							</form>
 
 							<%--つぶやきの編集ボタン --%>
